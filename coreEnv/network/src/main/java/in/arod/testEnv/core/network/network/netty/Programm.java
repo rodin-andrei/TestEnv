@@ -1,4 +1,4 @@
-package in.arod.testEnv.network.netty;
+package in.arod.testEnv.core.network.network.netty;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package in.arod.testEnv.network.socket;
+package in.arod.testEnv.core.network.network.socket;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

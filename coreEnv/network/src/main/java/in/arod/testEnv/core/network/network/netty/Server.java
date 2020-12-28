@@ -1,6 +1,6 @@
-package in.arod.testEnv.network.netty;
+package in.arod.testEnv.core.network.network.netty;
 
-import in.arod.testEnv.network.netty.handlers.SimpleProcessingHandler;
+import in.arod.testEnv.core.network.network.netty.handlers.SimpleProcessingHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
