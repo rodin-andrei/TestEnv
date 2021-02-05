@@ -11,6 +11,7 @@
     <modules>
         <module>springEnv</module>
         <module>coreEnv</module>
+        <module>rabbitMq</module>
     </modules>
 
     <dependencies>
