@@ -14,5 +14,6 @@
     <modules>
         <module>logging</module>
         <module>network</module>
+        <module>graph-ql</module>
     </modules>
 </project>

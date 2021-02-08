@@ -1,11 +1,13 @@
-package in.arod.springEnv.logging;
+package blog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-public class Program {
+@EnableJpaRepositories
+public class Main {
     public static void main(String[] args) {
-        SpringApplication.run(Program.class, args);
+        SpringApplication.run(Main.class, args);
     }
 }
