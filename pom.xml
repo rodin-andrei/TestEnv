@@ -12,6 +12,7 @@
     <modules>
         <module>springEnv</module>
         <module>coreEnv</module>
+        <module>asterisk</module>
     </modules>
 
     <dependencies>
