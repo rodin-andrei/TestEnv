@@ -1,9 +1,7 @@
-package com.unifun.spamBeeper.service;
+package com.unifun.spamBeeper.service.impl;
 
 
 import ch.loway.oss.ari4java.ARI;
-import ch.loway.oss.ari4java.AriVersion;
-import ch.loway.oss.ari4java.generated.AriWSHelper;
 import ch.loway.oss.ari4java.generated.models.*;
 import ch.loway.oss.ari4java.tools.*;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +33,10 @@ public class TestService {
 
 
     public void connect() throws ARIException {
-        log.info("Connected through ARI: " + ari.getVersion());
+        log.info("Connected through ARI: {}", ari.getVersion());
 
         AsteriskInfo ai = ari.asterisk().getInfo().execute();
-        log.info("Hey! We're connected! Asterisk Version: " + ai.getSystem().getVersion());
+        log.info("Hey! We're connected! Asterisk Version: {} ", ai.getSystem().getVersion());
 
         ari.eventsCallback(ariWsListener);
     }

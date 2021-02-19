@@ -1,12 +1,12 @@
-package com.unifun.spamBeeper.service;
+package com.unifun.spamBeeper.service.impl;
 
-import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.AriWSHelper;
 import ch.loway.oss.ari4java.generated.models.*;
 import ch.loway.oss.ari4java.tools.AriConnectionEvent;
 import ch.loway.oss.ari4java.tools.RestException;
+import com.unifun.spamBeeper.common.CallInfo;
+import com.unifun.spamBeeper.repository.PlayBackCallbackRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -14,20 +14,23 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AriWsListener extends AriWSHelper {
-    private final ARI ari;
-    private String sound= "yourcallisimportant";
+    private final CallProcessService callProcessService;
+
+    private final PlayBackCallbackRepository playBackCallbackRepository;
 
     @Override
-    @SneakyThrows
     protected void onStasisStart(StasisStart message) {
-        log.info("onStasisStart" + message);
-        ari.channels().play(message.getChannel().getId(), "sound:"+sound).execute();
-        ari.channels().hangup(message.getChannel().getId());
+        CallInfo callInfo = CallInfo.builder()
+                .calledMsisdn(message.getChannel().getDialplan().getExten())
+                .callingMsisdn(message.getChannel().getCaller().getNumber())
+                .channelId(message.getChannel().getId())
+                .build();
+        callProcessService.startCallProcess(callInfo);
     }
 
     @Override
     protected void onStasisEnd(StasisEnd message) {
-        log.info("onStasisEnd" + message);
+        log.trace("onStasisEnd" + message);
     }
 
     @Override
@@ -37,206 +40,208 @@ public class AriWsListener extends AriWSHelper {
 
     @Override
     public void onConnectionEvent(AriConnectionEvent event) {
-        log.info("onConnectionEvent" + event);
+        log.trace("onConnectionEvent" + event);
     }
 
     @Override
     protected void onChannelEnteredBridge(ChannelEnteredBridge message) {
-        log.info("onChannelEnteredBridge" + message);
+        log.trace("onChannelEnteredBridge" + message);
     }
 
     @Override
     protected void onPlaybackContinuing(PlaybackContinuing message) {
-        log.info("onPlaybackContinuing" + message);
+        log.trace("onPlaybackContinuing" + message);
     }
 
     @Override
     protected void onPeerStatusChange(PeerStatusChange message) {
-        log.info("onPeerStatusChange" + message);
+        log.trace("onPeerStatusChange" + message);
     }
 
     @Override
     protected void onChannelLeftBridge(ChannelLeftBridge message) {
-        log.info("onChannelLeftBridge" + message);
+        log.trace("onChannelLeftBridge" + message);
     }
 
     @Override
     protected void onChannelVarset(ChannelVarset message) {
-        log.info("onChannelVarset" + message);
+        log.trace("onChannelVarset" + message);
     }
 
     @Override
     protected void onTextMessageReceived(TextMessageReceived message) {
-        log.info("onTextMessageReceived" + message);
+        log.trace("onTextMessageReceived" + message);
     }
 
     @Override
     protected void onChannelConnectedLine(ChannelConnectedLine message) {
-        log.info("onChannelConnectedLine" + message);
+        log.trace("onChannelConnectedLine" + message);
     }
 
     @Override
     protected void onChannelUnhold(ChannelUnhold message) {
-        log.info("onChannelUnhold" + message);
+        log.trace("onChannelUnhold" + message);
     }
 
     @Override
     protected void onEndpointStateChange(EndpointStateChange message) {
-        log.info("onEndpointStateChange" + message);
+        log.trace("onEndpointStateChange" + message);
     }
 
     @Override
     protected void onPlaybackStarted(PlaybackStarted message) {
-        log.info("onPlaybackStarted" + message);
+        log.trace("onPlaybackStarted" + message);
     }
 
 
     @Override
     protected void onChannelDialplan(ChannelDialplan message) {
-        log.info("onChannelDialplan" + message);
+        log.trace("onChannelDialplan" + message);
     }
 
     @Override
     protected void onChannelDtmfReceived(ChannelDtmfReceived message) {
-        log.info("onChannelDtmfReceived" + message);
+        log.trace("onChannelDtmfReceived" + message);
+        log.debug("Digit: " + message.getDigit());
     }
 
     @Override
     protected void onDeviceStateChanged(DeviceStateChanged message) {
-        log.info("onDeviceStateChanged" + message);
+        log.trace("onDeviceStateChanged" + message);
     }
 
     @Override
     protected void onApplicationReplaced(ApplicationReplaced message) {
-        log.info("onApplicationReplaced" + message);
+        log.trace("onApplicationReplaced" + message);
     }
 
     @Override
     protected void onContactInfo(ContactInfo message) {
-        log.info("onContactInfo" + message);
+        log.trace("onContactInfo" + message);
     }
 
     @Override
     protected void onRecordingFailed(RecordingFailed message) {
-        log.info("onRecordingFailed" + message);
+        log.trace("onRecordingFailed" + message);
     }
 
     @Override
     protected void onChannelStateChange(ChannelStateChange message) {
-        log.info("onChannelStateChange" + message);
+        log.trace("onChannelStateChange" + message);
     }
 
     @Override
     protected void onBridgeBlindTransfer(BridgeBlindTransfer message) {
-        log.info("onBridgeBlindTransfer" + message);
+        log.trace("onBridgeBlindTransfer" + message);
     }
 
     @Override
     protected void onBridgeDestroyed(BridgeDestroyed message) {
-        log.info("onBridgeDestroyed" + message);
+        log.trace("onBridgeDestroyed" + message);
     }
 
     @Override
     protected void onBridgeMerged(BridgeMerged message) {
-        log.info("onBridgeMerged" + message);
+        log.trace("onBridgeMerged" + message);
     }
 
     @Override
     protected void onRecordingStarted(RecordingStarted message) {
-        log.info("onRecordingStarted" + message);
+        log.trace("onRecordingStarted" + message);
     }
 
     @Override
     protected void onPeer(Peer message) {
-        log.info("onPeer" + message);
+        log.trace("onPeer" + message);
     }
 
     @Override
     protected void onApplicationMoveFailed(ApplicationMoveFailed message) {
-        log.info("onApplicationMoveFailed" + message);
+        log.trace("onApplicationMoveFailed" + message);
     }
 
     @Override
     protected void onMissingParams(MissingParams message) {
-        log.info("onMissingParams" + message);
+        log.trace("onMissingParams" + message);
     }
 
     @Override
     protected void onChannelCreated(ChannelCreated message) {
-        log.info("onChannelCreated" + message);
+        log.trace("onChannelCreated" + message);
     }
 
     @Override
     protected void onRecordingFinished(RecordingFinished message) {
-        log.info("onRecordingFinished" + message);
+        log.trace("onRecordingFinished" + message);
     }
 
     @Override
     protected void onChannelHangupRequest(ChannelHangupRequest message) {
-        log.info("onChannelHangupRequest" + message);
+        log.trace("onChannelHangupRequest" + message);
     }
 
     @Override
     protected void onDial(Dial message) {
-        log.info("onDial" + message);
+        log.trace("onDial" + message);
     }
 
     @Override
     protected void onChannelTalkingFinished(ChannelTalkingFinished message) {
-        log.info("onChannelTalkingFinished" + message);
+        log.trace("onChannelTalkingFinished" + message);
     }
 
     @Override
     protected void onContactStatusChange(ContactStatusChange message) {
-        log.info("onContactStatusChange" + message);
+        log.trace("onContactStatusChange" + message);
     }
 
     @Override
     protected void onChannelTalkingStarted(ChannelTalkingStarted message) {
-        log.info("onChannelTalkingStarted" + message);
+        log.trace("onChannelTalkingStarted" + message);
     }
 
     @Override
     protected void onPlaybackFinished(PlaybackFinished message) {
-        log.info("onPlaybackFinished" + message);
+        log.trace("onPlaybackFinished" + message);
+        playBackCallbackRepository.findByPlayBackId(message.getPlayback().getId())
+                .ifPresent(playbackCallBack -> {
+                    playbackCallBack.onSuccess(message.getPlayback());
+                });
     }
 
     @Override
     protected void onBridgeCreated(BridgeCreated message) {
-        log.info("onBridgeCreated" + message);
+        log.trace("onBridgeCreated" + message);
     }
 
     @Override
     protected void onChannelDestroyed(ChannelDestroyed message) {
-        log.info("onChannelDestroyed" + message);
+        log.trace("onChannelDestroyed" + message);
     }
 
     @Override
     protected void onChannelHold(ChannelHold message) {
-        log.info("onChannelHold" + message);
+        log.trace("onChannelHold" + message);
     }
 
     @Override
     protected void onChannelUserevent(ChannelUserevent message) {
-        log.info("onChannelUserevent" + message);
+        log.trace("onChannelUserevent" + message);
     }
 
     @Override
     protected void onBridgeVideoSourceChanged(BridgeVideoSourceChanged message) {
-        log.info("onBridgeVideoSourceChanged" + message);
+        log.trace("onBridgeVideoSourceChanged" + message);
     }
 
     @Override
     protected void onBridgeAttendedTransfer(BridgeAttendedTransfer message) {
-        log.info("onBridgeAttendedTransfer" + message);
+        log.trace("onBridgeAttendedTransfer" + message);
     }
 
     @Override
     protected void onChannelCallerId(ChannelCallerId message) {
-        log.info("onChannelCallerId" + message);
+        log.trace("onChannelCallerId" + message);
     }
 
-    public void setSoundName(String sound) {
-        this.sound= sound;
-    }
 }
