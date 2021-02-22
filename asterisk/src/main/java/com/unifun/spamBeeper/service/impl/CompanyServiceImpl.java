@@ -7,8 +7,11 @@ import com.unifun.spamBeeper.repository.CompanyRepository;
 import com.unifun.spamBeeper.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -34,8 +37,27 @@ public class CompanyServiceImpl implements CompanyService {
                                     });
                         }
                 ).findFirst();
-        return selectedCompany.orElseGet(() -> companyRepository.findByIsDefault(true).get());
+        return selectedCompany.orElseGet(() -> companyRepository.findByIsDefault(true).orElseThrow(RuntimeException::new));
+    }
 
+    @Override
+    public Company getCompanyById(Long id) {
+        return companyRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NO_CONTENT));
+    }
+
+    @Override
+    public List<Company> getAllCompanies() {
+        return companyRepository.findAll();
+    }
+
+    @Override
+    public Company registerCompany(Company company) {
+        return companyRepository.save(company);
+    }
+
+    @Override
+    public void deleteCompany(Company company) {
+        companyRepository.delete(company);
     }
 }
 

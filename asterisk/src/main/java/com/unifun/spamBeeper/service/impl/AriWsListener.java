@@ -204,9 +204,7 @@ public class AriWsListener extends AriWSHelper {
     protected void onPlaybackFinished(PlaybackFinished message) {
         log.trace("onPlaybackFinished" + message);
         playBackCallbackRepository.findByPlayBackId(message.getPlayback().getId())
-                .ifPresent(playbackCallBack -> {
-                    playbackCallBack.onSuccess(message.getPlayback());
-                });
+                .ifPresent(playbackCallBack -> playbackCallBack.onSuccess(message.getPlayback()));
     }
 
     @Override
