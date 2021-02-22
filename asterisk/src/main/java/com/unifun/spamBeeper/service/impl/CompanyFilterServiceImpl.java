@@ -16,25 +16,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CompanyFilterServiceImpl implements CompanyFilterService {
 
-    private CompanyFilterRepository companyFilterRepository;
+    private final CompanyFilterRepository companyFilterRepository;
 
     @Override
-    public CompanyFilter getCompanyFilterById(Long id) {
+    public CompanyFilter getById(Long id) {
         return companyFilterRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NO_CONTENT));
     }
 
     @Override
-    public List<CompanyFilter> getAllCompanyFilters() {
+    public List<CompanyFilter> getAll() {
         return companyFilterRepository.findAll();
     }
 
     @Override
-    public CompanyFilter registerCompanyFilter(CompanyFilter filter) {
+    public CompanyFilter register(CompanyFilter filter) {
         return companyFilterRepository.save(filter);
     }
 
     @Override
-    public void deleteCompanyFilter(CompanyFilter filter) {
+    public void delete(CompanyFilter filter) {
         companyFilterRepository.delete(filter);
     }
 }

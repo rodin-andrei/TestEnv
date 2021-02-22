@@ -5,8 +5,8 @@ import com.unifun.spamBeeper.model.Prompt;
 import java.util.List;
 
 public interface PromptService {
-    Prompt getPromptById(Long id);
-    List<Prompt> getAllPrompts();
-    Prompt registerPrompt(Prompt prompt);
-    void deletePrompt(Prompt prompt);
+    Prompt getById(Long id);
+    List<Prompt> getAll();
+    Prompt register(Prompt prompt);
+    void delete(Prompt prompt);
 }

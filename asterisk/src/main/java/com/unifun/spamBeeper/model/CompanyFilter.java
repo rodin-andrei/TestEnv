@@ -1,5 +1,6 @@
 package com.unifun.spamBeeper.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
@@ -20,6 +21,6 @@ public class CompanyFilter {
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
-    @JsonManagedReference
+    @JsonIgnore
     private Company company;
 }

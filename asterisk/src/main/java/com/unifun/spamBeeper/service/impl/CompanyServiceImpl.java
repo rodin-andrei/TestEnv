@@ -41,22 +41,22 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company getCompanyById(Long id) {
+    public Company getById(Long id) {
         return companyRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NO_CONTENT));
     }
 
     @Override
-    public List<Company> getAllCompanies() {
+    public List<Company> getAll() {
         return companyRepository.findAll();
     }
 
     @Override
-    public Company registerCompany(Company company) {
+    public Company register(Company company) {
         return companyRepository.save(company);
     }
 
     @Override
-    public void deleteCompany(Company company) {
+    public void delete(Company company) {
         companyRepository.delete(company);
     }
 }

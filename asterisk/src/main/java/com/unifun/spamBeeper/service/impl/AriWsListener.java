@@ -1,5 +1,6 @@
 package com.unifun.spamBeeper.service.impl;
 
+import ch.loway.oss.ari4java.ARI;
 import ch.loway.oss.ari4java.generated.AriWSHelper;
 import ch.loway.oss.ari4java.generated.models.*;
 import ch.loway.oss.ari4java.tools.AriConnectionEvent;
@@ -10,22 +11,29 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class AriWsListener extends AriWSHelper {
     private final CallProcessService callProcessService;
+    private final ExecutorService es = Executors.newFixedThreadPool(1);
+    private final ARI ari;
 
     private final PlayBackCallbackRepository playBackCallbackRepository;
 
     @Override
     protected void onStasisStart(StasisStart message) {
-        CallInfo callInfo = CallInfo.builder()
-                .calledMsisdn(message.getChannel().getDialplan().getExten())
-                .callingMsisdn(message.getChannel().getCaller().getNumber())
-                .channelId(message.getChannel().getId())
-                .build();
-        callProcessService.startCallProcess(callInfo);
+        es.execute(() -> {
+            CallInfo callInfo = CallInfo.builder()
+                    .calledMsisdn(message.getChannel().getDialplan().getExten())
+                    .callingMsisdn(message.getChannel().getCaller().getNumber())
+                    .channelId(message.getChannel().getId())
+                    .build();
+            callProcessService.startCallProcess(callInfo);
+        });
     }
 
     @Override
@@ -203,8 +211,8 @@ public class AriWsListener extends AriWSHelper {
     @Override
     protected void onPlaybackFinished(PlaybackFinished message) {
         log.trace("onPlaybackFinished" + message);
-        playBackCallbackRepository.findByPlayBackId(message.getPlayback().getId())
-                .ifPresent(playbackCallBack -> playbackCallBack.onSuccess(message.getPlayback()));
+        es.execute(() -> playBackCallbackRepository.findByPlayBackId(message.getPlayback().getId())
+                .ifPresent(playbackCallBack -> playbackCallBack.onSuccess(message.getPlayback())));
     }
 
     @Override

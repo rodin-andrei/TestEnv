@@ -14,7 +14,6 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"filters"})
 public class Company {
     @ManyToOne
-    @JsonManagedReference
     @JoinColumn(name = "prompt_id", nullable = false)
     protected Prompt prompt;
 
@@ -30,7 +29,6 @@ public class Company {
 
     private boolean isDefault;
 
-    @JsonBackReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "company")
     private Set<CompanyFilter> filters;
 

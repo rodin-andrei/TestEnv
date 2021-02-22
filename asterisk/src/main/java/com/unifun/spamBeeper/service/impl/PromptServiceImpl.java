@@ -19,22 +19,22 @@ public class PromptServiceImpl implements PromptService {
     private final PromptRepository promptRepository;
 
     @Override
-    public Prompt getPromptById(Long id) {
+    public Prompt getById(Long id) {
         return promptRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NO_CONTENT));
     }
 
     @Override
-    public List<Prompt> getAllPrompts() {
+    public List<Prompt> getAll() {
         return promptRepository.findAll();
     }
 
     @Override
-    public Prompt registerPrompt(Prompt prompt) {
+    public Prompt register(Prompt prompt) {
         return promptRepository.save(prompt);
     }
 
     @Override
-    public void deletePrompt(Prompt prompt) {
+    public void delete(Prompt prompt) {
         promptRepository.delete(prompt);
     }
 }

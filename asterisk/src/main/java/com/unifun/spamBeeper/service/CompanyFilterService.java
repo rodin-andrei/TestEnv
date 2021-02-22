@@ -5,11 +5,11 @@ import com.unifun.spamBeeper.model.CompanyFilter;
 import java.util.List;
 
 public interface CompanyFilterService {
-    CompanyFilter getCompanyFilterById(Long id);
+    CompanyFilter getById(Long id);
 
-    List<CompanyFilter> getAllCompanyFilters();
+    List<CompanyFilter> getAll();
 
-    CompanyFilter registerCompanyFilter(CompanyFilter filter);
+    CompanyFilter register(CompanyFilter filter);
 
-    void deleteCompanyFilter(CompanyFilter filter);
+    void delete(CompanyFilter filter);
 }

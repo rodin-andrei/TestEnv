@@ -37,13 +37,12 @@ public class CallProcessService {
             answerAction.doAction(callInfo, null, new CallBack<Void>() {
                 @Override
                 public void onSuccess(Void param) {
-                    log.info("OOOOOK");
                     playPrompt(callInfo);
                 }
 
                 @Override
                 public void ofFailure(Exception e) {
-                    log.error("UUUPS");
+                    log.error(e.getMessage(), e);
                 }
             });
         } else {

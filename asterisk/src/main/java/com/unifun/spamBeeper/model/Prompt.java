@@ -1,6 +1,6 @@
 package com.unifun.spamBeeper.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +23,6 @@ public class Prompt {
     private String path;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "prompt")
-    @JsonBackReference
+    @JsonIgnore
     private Set<Company> companies;
 }

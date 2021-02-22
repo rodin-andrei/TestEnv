@@ -8,11 +8,11 @@ import java.util.List;
 public interface CompanyService {
     Company findAvailableCompany(CallInfo callInfo);
 
-    Company getCompanyById(Long id);
+    Company getById(Long id);
 
-    List<Company> getAllCompanies();
+    List<Company> getAll();
 
-    Company registerCompany(Company company);
+    Company register(Company company);
 
-    void deleteCompany(Company company);
+    void delete(Company company);
 }

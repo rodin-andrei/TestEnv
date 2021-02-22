@@ -36,7 +36,6 @@ public class AnswerAction implements Action<Void> {
         log.info("Do AnswerAction for channel {}", callInfo.getChannelId());
         try {
             ari.channels().answer(callInfo.getChannelId()).execute();
-            log.info("HMMMM");
             callBack.onSuccess(null);
         } catch (RestException e) {
             log.error("Error execute AnswerAction, {}", e.getMessage(), e);
