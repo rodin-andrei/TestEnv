@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -32,6 +33,7 @@ public class SpamBeeperConfiguration {
                 asteriskUser, asteriskPass,
                 AriVersion.IM_FEELING_LUCKY);
     }
+
 
     @Bean
     public Docket api() {

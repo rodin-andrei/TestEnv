@@ -10,7 +10,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("company")
+@RequestMapping("api/company")
 @RequiredArgsConstructor
 public class CompanyController {
 
@@ -29,5 +29,12 @@ public class CompanyController {
     @PostMapping("/create")
     private Company create(@RequestBody Company company) {
         return companyService.register(company);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    private void delete(@PathVariable Long id){
+        Company company = new Company();
+        company.setId(id);
+        companyService.delete(company);
     }
 }
